@@ -1,0 +1,14 @@
+<h1 style="margin-left: 25px; margin-top: 15px; font-size: 36px;">SpaceX Mission Launch List</h1>
+<div *ngFor="let launch of launchList" style="display: flex; justify-content: center; margin-top: 20px;">
+    <mat-card (click)="getDetails(launch.flight_number)" style="width: 80vw; margin-bottom: 20px; border-radius: 10px; background-color: darksalmon; cursor: pointer;">
+        <img style="display: inline;" mat-card-sm-image [src]="launch.mission_patch_small" >
+        <mat-card-title-group>            
+            <mat-card-title>{{ launch.mission_name }}</mat-card-title>
+            <mat-card-subtitle>{{ launch.launch_year }}</mat-card-subtitle>
+        </mat-card-title-group>
+        <mat-card-content>
+            <p style="font-weight: 500;">{{ launch.details === null ? "No details" : launch.details }}</p>
+        </mat-card-content>
+    </mat-card>
+</div>
+
