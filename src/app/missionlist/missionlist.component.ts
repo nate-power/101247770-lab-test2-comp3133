@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SpacexapiService } from '../network/spacexapi.service';
 import { Mission } from '../models/mission';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-missionlist',
@@ -12,11 +13,13 @@ export class MissionlistComponent implements OnInit {
 
   launchList: Mission[] = []
   launch!: Mission
+  loading!: Boolean;
 
   constructor(private router: Router, private spacexService: SpacexapiService) {}
 
   ngOnInit(): void {
-    this.spacexService.getAllLaunches().subscribe({
+    this.loading = true
+    this.spacexService.getAllLaunches().pipe(finalize(() => this.loading = false)).subscribe({
       next: (data: any) => {
         data.forEach((launch: any ) => {
           this.launch = {

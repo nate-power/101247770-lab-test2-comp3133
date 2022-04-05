@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Mission } from '../models/mission';
 import { SpacexapiService } from '../network/spacexapi.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-missiondetails',
@@ -11,13 +12,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class MissiondetailsComponent implements OnInit {
 
   selectedFlightNumber!: number;
-  selectedLaunch!: Mission
+  selectedLaunch!: Mission;
+  loading!: Boolean;
 
   constructor(private activatedRouter: ActivatedRoute, private router: Router, private spacexService: SpacexapiService) { }
 
   ngOnInit(): void {
+    this.loading = true
     this.selectedFlightNumber = this.activatedRouter.snapshot.params['id'];
-    this.spacexService.getLaunchById(this.selectedFlightNumber).subscribe({
+    this.spacexService.getLaunchById(this.selectedFlightNumber).pipe(finalize(() => this.loading = false)).subscribe({
       next: (data: any) => {
         this.selectedLaunch = {
           flight_number: data.flight_number,
@@ -31,6 +34,8 @@ export class MissiondetailsComponent implements OnInit {
           launch_site: data.launch_site.site_name_long,
           more_info: data.links.article_link
         }
+      }, error: (error: any) => {
+        this.router.navigate([""])
       }
     })
   }

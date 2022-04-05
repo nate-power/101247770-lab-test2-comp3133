@@ -4,25 +4,30 @@
 </div>
 <div style="display: flex; justify-content: center; margin-top: 25px; border-radius: 25px;">
     <div style="border-radius: 10px; background-color: bisque; width: 85vw;">
-        <div style="display: flex;">
-            <div>
-                <img style="display: inline; width: 400px;" [src]="selectedLaunch.mission_patch" >
-            </div>
-            <div style="margin-top: 15px; margin-left: 50px;">
-                <h1 style="text-decoration: underline;">Mission - {{ selectedLaunch.mission_name }}</h1>
-                <h2 style="margin-left: 15px;">Name: {{ selectedLaunch.mission_name }}</h2>
-                <h2 style="margin-left: 15px;">Launch Year: {{ selectedLaunch.launch_year }}</h2>
-                <h1 style="text-decoration: underline;">Rocket</h1>
-                <h2 style="margin-left: 15px;">Name: {{ selectedLaunch.rocket_name }}</h2>
-                <h2 style="margin-left: 15px;">Type: {{ selectedLaunch.rocket_type }}</h2>
-                <h1 style="text-decoration: underline;">Launch Site</h1>
-                <h2 style="margin-left: 15px;">Name: {{ selectedLaunch.launch_site }}</h2>
-            </div>
+        <div *ngIf="loading">
+            <mat-spinner style="margin: auto; margin-top: 75px; margin-bottom: 75px;"></mat-spinner>
         </div>
-        <div style="margin-left: 50px; margin-top: 50px; margin-bottom: 50px;">
-            <h1>Launch Details</h1>
-            <h2 style="margin-bottom: 75px;">{{ selectedLaunch.details }}</h2>
-            <a style="font-size: 30px; color: olive;" target="_blank" [href]="selectedLaunch.more_info">More Info on Launch Details</a>
+        <div *ngIf="!loading">
+            <div style="display: flex;">
+                <div>
+                    <img style="display: inline; width: 400px;" [src]="selectedLaunch.mission_patch" >
+                </div>
+                <div style="margin-top: 15px; margin-left: 50px;">
+                    <h1 style="text-decoration: underline;">Mission - {{ selectedLaunch.mission_name }}</h1>
+                    <h2 style="margin-left: 15px;">Name: {{ selectedLaunch.mission_name }}</h2>
+                    <h2 style="margin-left: 15px;">Launch Year: {{ selectedLaunch.launch_year }}</h2>
+                    <h1 style="text-decoration: underline;">Rocket</h1>
+                    <h2 style="margin-left: 15px;">Name: {{ selectedLaunch.rocket_name }}</h2>
+                    <h2 style="margin-left: 15px;">Type: {{ selectedLaunch.rocket_type }}</h2>
+                    <h1 style="text-decoration: underline;">Launch Site</h1>
+                    <h2 style="margin-left: 15px;">Name: {{ selectedLaunch.launch_site }}</h2>
+                </div>
+            </div>
+            <div style="margin-left: 50px; margin-top: 50px; margin-bottom: 50px;">
+                <h1 style="text-decoration: underline;">Launch Details</h1>
+                <h2 style="margin-bottom: 75px;">{{ selectedLaunch.details === null ? "No Details" :  selectedLaunch.details}}</h2>
+                <a style="font-size: 30px; color: olive;" target="_blank" [href]="selectedLaunch.more_info">More Info on Launch Details</a>
+            </div>
         </div>
     </div>
 </div>
